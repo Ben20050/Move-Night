@@ -219,9 +219,9 @@ else:
 
 # output raffle results
 winner_heading = "\n---- Raffle Winner ----"
-winner_text = "The winner of the raffle is {}." \
-              "They have won ${:.2f}. ie: Their ticket is " \
-              "free!".format(winner_name, total_won)
+winner_text = '''The winner of the raffle is {}.
+They have won ${:.2f}.
+ie: Their ticket is free!'''.format(winner_name, total_won)
 
 # list holding content to print / write to file
 to_write = [heading, mini_movie_string, ticket_cost_heading,
