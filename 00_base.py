@@ -175,13 +175,13 @@ mini_movie_frame['Total'] = mini_movie_frame['Surcharge'] + mini_movie_frame['Ti
 mini_movie_frame['Profit'] = mini_movie_frame['Ticket Price'] - 5
 
 # Calculate ticket and profit totals
-total = currency(mini_movie_frame['Total'].sum())
-profit = currency(mini_movie_frame['Profit'].sum())
+total = mini_movie_frame['Total'].sum()
+profit = mini_movie_frame['Profit'].sum()
 
 # choose winner and look up total won
 winner_name = random.choice(all_names)
 win_index = all_names.index(winner_name)
-total_won = currency(mini_movie_frame.at[win_index, 'Total'])
+total_won = mini_movie_frame.at[win_index, 'Total']
 
 # Currency Formatting (uses currency function)
 add_dollars = ['Ticket Price', 'Surcharge', 'Total', 'Profit']
@@ -200,7 +200,7 @@ day = today.strftime("%d")
 month = today.strftime("%m")
 year = today.strftime("%Y")
 
-heading = "---- Mini Movie Fundraiser Ticket Data ({}/{}/{}) ----\n".format(day, month, year)
+heading = "\n---- Mini Movie Fundraiser Ticket Data ({}/{}/{}) ----\n".format(day, month, year)
 filename = "MMF_{}_{}_{}".format(year, month, day)
 
 # change frame to a string, so we can import it to a file
@@ -208,15 +208,19 @@ mini_movie_string = pandas.DataFrame.to_string(mini_movie_frame)
 
 # create strings for printing
 ticket_cost_heading = "\n----- Ticket cost / Profit -----"
-total_ticket_sales = "Total Ticket Sales: ${}".format(total)
-total_profit = "Total Profit: ${}".format(profit)
+total_ticket_sales = "Total Ticket Sales: ${:.2f}".format(total)
+total_profit = "Total Profit: ${:.2f}".format(profit)
 
 # work in case of unsold tickets
-sales_status = "\n*** All the tickets have been sold***"
+if tickets_sold == MAX_TICKETS:
+    sales_status = "\n*** All the tickets have been sold***"
+else:
+    sales_status = "\n **** You have sold {} out of {} tickets ****".format(tickets_sold, MAX_TICKETS)
 
+# output raffle results
 winner_heading = "\n---- Raffle Winner ----"
 winner_text = "The winner of the raffle is {}." \
-              "They have won ${}. ie: Their ticket is " \
+              "They have won ${:.2f}. ie: Their ticket is " \
               "free!".format(winner_name, total_won)
 
 # list holding content to print / write to file
